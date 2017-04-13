@@ -1,15 +1,15 @@
 package com.misura.tpi.misura;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 import javax.imageio.ImageIO;
 /**
  * Created by Miguel on 13/04/2017.
  */
 
-public class imageTest {
+public class ImageTest {
 
-    public void printPixelARGB(int pixel) {
+    public static void printPixelARGB(int pixel) {
         int alpha = (pixel >> 24) & 0xff;
         int red = (pixel >> 16) & 0xff;
         int green = (pixel >> 8) & 0xff;
@@ -17,7 +17,7 @@ public class imageTest {
         System.out.println("argb: " + alpha + ", " + red + ", " + green + ", " + blue);
     }
 
-    private void marchThroughImage(BufferedImage image) {
+    public static void marchThroughImage(BufferedImage image) {
 
         int w = image.getWidth();
         int h = image.getHeight();
@@ -34,28 +34,13 @@ public class imageTest {
     }
 
 
-    void main(String[] args) {
+    public static void main(String[] args) {
         try {
             // get the BufferedImage, using the ImageIO class
-            BufferedImage image =  ImageIO.read(this.getClass().getResource("app/res/foto.jpg"));
+            BufferedImage image =  ImageIO.read(new File("foto.jpg"));
             marchThroughImage(image);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
