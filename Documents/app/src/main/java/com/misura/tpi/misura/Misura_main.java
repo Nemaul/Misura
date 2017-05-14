@@ -21,12 +21,12 @@ public class Misura_main extends AppCompatActivity {
         startActivity(camcall);
     }
 
-    public void get_image() {
+    public void get_image(View view) {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, 1);
     }
 
-    /*
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -47,5 +47,5 @@ public class Misura_main extends AppCompatActivity {
         }
 
 
-     }*/
+     }
     }
