@@ -17,4 +17,12 @@ public class Misura_main extends AppCompatActivity {
         Intent camcall = new Intent("android.media.action.IMAGE_CAPTURE");
         startActivity(camcall);
     }
+
+    public void get_image() {
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, 1);
+    }
+
+
+
 }
