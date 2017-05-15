@@ -43,7 +43,7 @@ public class Misura_main extends AppCompatActivity {
 
 
     public boolean is_element(int r, int g, int b){
-        return (r < 100 && g > 100 && b >100) ? true :  false;
+        return (r < 100 && g > 10 && b >100) ? true :  false;
     }
 
     public double three_rule(int valid, int element){
