@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import java.io.*;
 import android.graphics.*;
+import android.widget.ImageView;
 
 public class Misura_main extends AppCompatActivity {
 
@@ -40,22 +41,20 @@ public class Misura_main extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
-
-
     public boolean is_element(int r, int g, int b){
         return (r < 100 && g > 10 && b >100) ? true :  false;
     }
 
     public double three_rule(int valid, int element){
-        return (ELEMENT_AREA_DM2 * valid) / element;
+        return (ELEMENT_AREA_DM2 * valid) / element ;
+
     }
 
 
-
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
 
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
@@ -91,14 +90,23 @@ public class Misura_main extends AppCompatActivity {
                                 }
                             }
                         }
-                        System.out.println("The image has: "+ imageHeigth*imageWidth + " of resolution");
+                        double disp_area = three_rule(valid_pixels,element_pixels);
+                        /*System.out.println("The image has: "+ imageHeigth*imageWidth + " of resolution");
                         System.out.println("The image has: "+ valid_pixels + " valid pixels");
                         System.out.println("The image has: "+ element_pixels + " element pixels");
-                        System.out.println("The piece has: "+ three_rule(valid_pixels, element_pixels) + "dm2");
+                        System.out.println("The piece has: "+ disp_area + "dm2");*/
+
+                        Intent displayintent = new Intent(this, resuslts_display.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putDouble("calc_area", disp_area);
+                        displayintent.putExtras(bundle);
+                        startActivity(displayintent);
+
                     }
                     catch(FileNotFoundException nf){
                         nf.printStackTrace();
-                    }
+                        }
+
                 }
 
     }

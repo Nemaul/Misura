@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Misura</string>
     <string name="tk_pic">Tomar Foto</string>
+    <string name="title_activity_resuslts_display">resuslts_display</string>
 </resources>
