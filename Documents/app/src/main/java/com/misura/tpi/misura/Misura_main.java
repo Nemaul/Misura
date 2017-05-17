@@ -1,17 +1,13 @@
 package com.misura.tpi.misura;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
+
 import java.io.*;
 import android.graphics.*;
-import android.widget.ImageView;
 
 public class Misura_main extends AppCompatActivity {
 
@@ -41,9 +37,14 @@ public class Misura_main extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
-    public boolean is_element(int r, int g, int b){
-        return (r < 100 && g > 10 && b >100) ? true :  false;
+    public int leather(int r, int g, int b){
+        if (r < 100 && g > 10 && b >100)
+            return 1;
+        else if (r < 100 && g > 10 && b >100)
+            return 0;
+        return -1;
     }
+
 
     public double three_rule(int valid, int element){
         return (ELEMENT_AREA_DM2 * valid) / element ;
@@ -71,9 +72,8 @@ public class Misura_main extends AppCompatActivity {
                         yourSelectedImage.getPixels(pix, 0, imageWidth, 0, 0, imageWidth, imageHeigth);
 
                         int valid_pixels = 0 ;
-                        int element_pixels = 0;
+                        int magnet_pixels = 0;
                         int total_pix = imageHeigth*imageWidth;
-                        int area;
 
 
                         for (int x = 0 ; x< imageWidth; x++){
@@ -83,20 +83,22 @@ public class Misura_main extends AppCompatActivity {
                                 int g = (pix[index] >> 8) & 0xff;
                                 int b = pix[index] & 0xff;
 
-                                if (!is_element(r, g, b)){
+                                int desition = leather(r, g, b) ;
+                                if (desition == 1){
                                     valid_pixels++;
                                 }else{
-                                    element_pixels++;
+                                    if(desition == 0)
+                                    magnet_pixels++;
                                 }
                             }
                         }
-                        double disp_area = three_rule(valid_pixels,element_pixels);
+                        double disp_area = three_rule(valid_pixels,magnet_pixels);
                         /*System.out.println("The image has: "+ imageHeigth*imageWidth + " of resolution");
                         System.out.println("The image has: "+ valid_pixels + " valid pixels");
                         System.out.println("The image has: "+ element_pixels + " element pixels");
                         System.out.println("The piece has: "+ disp_area + "dm2");*/
 
-                        Intent displayintent = new Intent(this, resuslts_display.class);
+                        Intent displayintent = new Intent(this, Results_Display.class);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("imageUri", selectedImage);
                         bundle.putDouble("calc_area", disp_area);

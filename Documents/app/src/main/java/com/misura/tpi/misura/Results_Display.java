@@ -1,4 +1,4 @@
-package com.misura.tpi.misura;
+    package com.misura.tpi.misura;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import java.text.DecimalFormat;
 
-public class resuslts_display extends AppCompatActivity {
+public class Results_Display extends AppCompatActivity {
 
     public double roundTwoDecimals(double to_round) {
         DecimalFormat twoDForm = new DecimalFormat("#.##");

@@ -16,13 +16,12 @@
         <activity android:name=".Misura_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Misura_main$Camera" />
         <activity
-            android:name=".resuslts_display"
+            android:name=".Results_Display"
             android:label="@string/title_activity_resuslts_display"
             android:parentActivityName=".Misura_main"
             android:theme="@style/AppTheme.NoActionBar">
