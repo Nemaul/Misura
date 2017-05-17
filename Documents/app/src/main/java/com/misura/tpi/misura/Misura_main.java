@@ -98,6 +98,7 @@ public class Misura_main extends AppCompatActivity {
 
                         Intent displayintent = new Intent(this, resuslts_display.class);
                         Bundle bundle = new Bundle();
+                        bundle.putParcelable("imageUri", selectedImage);
                         bundle.putDouble("calc_area", disp_area);
                         displayintent.putExtras(bundle);
                         startActivity(displayintent);

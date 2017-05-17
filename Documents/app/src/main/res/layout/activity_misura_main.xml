@@ -13,17 +13,17 @@
     tools:context="com.example.miguel.document.Misura_main">
 
     <TextView
-        android:text="Bienvenido a Misura"
-        android:layout_height="80dp"
-        android:layout_marginTop="34dp"
         android:id="@+id/welcome"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:textAlignment="center"
-        android:fontFamily="monospace"
-        android:textSize="18sp"
         android:layout_width="150dp"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:fontFamily="casual"
+        android:text="Bienvenido a Misura"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:textSize="28sp" />
 
     <TextView
         android:layout_width="100dp"
@@ -42,11 +42,12 @@
         android:tint="@android:color/background_dark"
         android:visibility="visible"
         style="@style/Widget.AppCompat.ImageButton"
-        android:layout_below="@+id/welcome"
-        android:layout_centerHorizontal="true"
         android:elevation="11dp"
         android:adjustViewBounds="false"
-        android:onClick="camera_call"/>
+        android:onClick="camera_call"
+        android:layout_below="@+id/welcome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp" />
 
 
     <TextView
@@ -64,9 +65,10 @@
         android:layout_height="70dp"
         android:layout_weight="0"
         android:text="Cargar_foto"
-        android:layout_below="@+id/tomar"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:onClick="get_image" />
+        android:onClick="get_image"
+        android:layout_marginTop="38dp"
+        android:layout_below="@+id/tomar"
+        android:layout_alignStart="@+id/cam_bttn" />
 
 </RelativeLayout>
