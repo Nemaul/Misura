@@ -1,6 +1,7 @@
 package com.misura.tpi.misura;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +13,7 @@ import android.graphics.*;
 public class Misura_main extends AppCompatActivity {
 
 
-    public static final double ELEMENT_AREA_DM2 = 5.53;
-    public static final double ELEMENT_R_VAL = 1;
-    public static final double ELEMENT_G_VAL = 115.5;
-    public static final double ELEMENT_B_VAL = 188.5;
+    public static final double ELEMENT_AREA_DM2 = 1.25663706144;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +35,18 @@ public class Misura_main extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
-    public int leather(int r, int g, int b){
-        if (r < 100 && g > 10 && b >100)
+    public int leather(double r, double g, double b){
+        if (r < 100 && g > 100 && b <100) //pared
             return 1;
-        else if (r < 100 && g > 10 && b >100)
+        else if ( b >100) //iman
             return 0;
-        return -1;
+        return -1; //otros colores
     }
 
 
     public double three_rule(int valid, int element){
         return (ELEMENT_AREA_DM2 * valid) / element ;
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -71,20 +67,61 @@ public class Misura_main extends AppCompatActivity {
                         int pix [] = new int[imageWidth*imageHeigth];
                         yourSelectedImage.getPixels(pix, 0, imageWidth, 0, 0, imageWidth, imageHeigth);
 
-                        int valid_pixels = 0 ;
-                        int magnet_pixels = 0;
-                        int total_pix = imageHeigth*imageWidth;
+                        int total_pix  = imageWidth*imageHeigth;
 
+
+                        int valid_pixels = 0 ;
+                        int magnet_pixels = -1;
+
+                        long gr = 0, gg = 0, gb = 0;
+                        for (int x = 0; x < imageWidth; x++) {
+                            for (int y = 0; y < imageHeigth; y++) {
+                                int index = y * imageWidth + x;
+                                long r = (pix[index] >> 16) & 0xff;
+                                long g = (pix[index] >> 8) & 0xff;
+                                long b = pix[index] & 0xff;
+                                gr += r;
+                                gg += b;
+                                gb += g;
+                            }
+                        }
+
+                        System.out.println("gr:" + gr);
+                        System.out.println("gr mu: " + gr/total_pix);
+
+                        System.out.println("gg:" + gg);
+                        System.out.println("gg mu: " + gg/total_pix);
+
+                        System.out.println("gb:" + gb);
+                        System.out.println("gb mu: " + gb/total_pix);
 
                         for (int x = 0 ; x< imageWidth; x++){
                             for(int y = 0; y< imageHeigth; y++){
+
                                 int index  = y*imageWidth+x;
-                                int r = (pix[index] >> 16) & 0xff;
-                                int g = (pix[index] >> 8) & 0xff;
-                                int b = pix[index] & 0xff;
+                                double r = ((pix[index] >> 16) & 0xff);
+                                double g = ((pix[index] >> 8) & 0xff);
+                                double b = (pix[index] & 0xff);
+
+                                //standard deviation
+                                double Sr  =  Math.sqrt(1/(total_pix-1) *  Math.pow((gr - (gr/total_pix)),2));
+                                double Sg  =  Math.sqrt(1/(total_pix-1) *   Math.pow((gg - (gg/total_pix)),2));
+                                double Sb  =  Math.sqrt(1/(total_pix-1) *  Math.pow((gb - (gb/total_pix)),2));
+
+                                r = (r - (gr/total_pix))/Sr;
+                                g = (r - (gg/total_pix))/Sg;
+                                b = (r - (gb/total_pix))/Sb;
+
+
+                                /*
+                                System.out.println(r);
+                                System.out.println(g);
+                                System.out.println(b);
+                                */
 
                                 int desition = leather(r, g, b) ;
-                                if (desition == 1){
+
+                                if (desition == -1){
                                     valid_pixels++;
                                 }else{
                                     if(desition == 0)
@@ -92,7 +129,11 @@ public class Misura_main extends AppCompatActivity {
                                 }
                             }
                         }
+
+                        System.out.println("valid pixels:" + valid_pixels);
+                        System.out.println("magnet pixels"  + magnet_pixels);
                         double disp_area = three_rule(valid_pixels,magnet_pixels);
+                        System.out.println("Area: " + disp_area);
                         /*System.out.println("The image has: "+ imageHeigth*imageWidth + " of resolution");
                         System.out.println("The image has: "+ valid_pixels + " valid pixels");
                         System.out.println("The image has: "+ element_pixels + " element pixels");
