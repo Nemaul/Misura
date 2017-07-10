@@ -36,11 +36,13 @@ public class Misura_main extends AppCompatActivity {
     }
 
     public int leather(double r, double g, double b){
-        if (r < 100 && g > 100 && b <100) //pared
-            return 1;
-        else if ( b >100) //iman
+        if (  r<100 && g > 100 && b<100 ) //pared
+            return -1;
+        else if ( r<100 && g<100 && b >100) //iman
             return 0;
-        return -1; //otros colores
+        else if (r>100 && g>100 && b >100)//papel
+            return 1;
+        return 0;
     }
 
 
@@ -69,9 +71,10 @@ public class Misura_main extends AppCompatActivity {
 
                         int total_pix  = imageWidth*imageHeigth;
 
-
+                        int wall = 0;
                         int valid_pixels = 0 ;
                         int magnet_pixels = -1;
+                        int area_pixels = 0;
 
                         long gr = 0, gg = 0, gb = 0;
                         for (int x = 0; x < imageWidth; x++) {
@@ -86,14 +89,14 @@ public class Misura_main extends AppCompatActivity {
                             }
                         }
 
-                        System.out.println("gr:" + gr);
-                        System.out.println("gr mu: " + gr/total_pix);
+                        //System.out.println("gr:" + gr);
+                        //System.out.println("gr mu: " + gr/total_pix);
 
-                        System.out.println("gg:" + gg);
-                        System.out.println("gg mu: " + gg/total_pix);
+                        //System.out.println("gg:" + gg);
+                        //System.out.println("gg mu: " + gg/total_pix);
 
-                        System.out.println("gb:" + gb);
-                        System.out.println("gb mu: " + gb/total_pix);
+                        //System.out.println("gb:" + gb);
+                        //System.out.println("gb mu: " + gb/total_pix);
 
                         for (int x = 0 ; x< imageWidth; x++){
                             for(int y = 0; y< imageHeigth; y++){
@@ -122,18 +125,20 @@ public class Misura_main extends AppCompatActivity {
                                 int desition = leather(r, g, b) ;
 
                                 if (desition == -1){
-                                    valid_pixels++;
+                                    wall++;
                                 }else{
                                     if(desition == 0)
-                                    magnet_pixels++;
+                                        magnet_pixels++;
+                                    if (desition == 1)
+                                            valid_pixels++;
                                 }
                             }
                         }
 
-                        System.out.println("valid pixels:" + valid_pixels);
-                        System.out.println("magnet pixels"  + magnet_pixels);
-                        double disp_area = three_rule(valid_pixels,magnet_pixels);
-                        System.out.println("Area: " + disp_area);
+                        //System.out.println("valid pixels:" + valid_pixels);
+                        //System.out.println("magnet pixels"  + magnet_pixels);
+                        double disp_area = three_rule(total_pix-wall+valid_pixels,magnet_pixels);
+                        //System.out.println("Area: " + disp_area);
                         /*System.out.println("The image has: "+ imageHeigth*imageWidth + " of resolution");
                         System.out.println("The image has: "+ valid_pixels + " valid pixels");
                         System.out.println("The image has: "+ element_pixels + " element pixels");
